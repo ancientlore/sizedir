@@ -80,6 +80,7 @@ func main() {
 		maxk := 2
 		maxm := 2
 		maxg := 2
+		maxa := 6
 		for k := range extensions {
 			keys = append(keys, k)
 			if len(k) > max {
@@ -105,14 +106,18 @@ func main() {
 			if digits > maxg {
 				maxg = digits
 			}
+			digits = len(strconv.FormatInt(extensions[k].size/extensions[k].files, 10))
+			if digits > maxa {
+				maxa = digits
+			}
 		}
 		sort.Strings(keys)
-		fmt.Printf("%-*.*s %*s %*s %*s %*s %*s\n", max, max, "Extension", maxc, "Files", maxs, "Bytes", maxk, "KB", maxm, "MB", maxg, "GB")
-		fmt.Printf("%s %s %s %s %s %s\n", strings.Repeat("-", max), strings.Repeat("-", maxc), strings.Repeat("-", maxs), strings.Repeat("-", maxk), strings.Repeat("-", maxm), strings.Repeat("-", maxg))
+		fmt.Printf("%-*.*s %*s %*s %*s %*s %*s %*.*s\n", max, max, "Extension", maxc, "Files", maxs, "Bytes", maxk, "KB", maxm, "MB", maxg, "GB", maxa, maxa, "Avg KB")
+		fmt.Printf("%s %s %s %s %s %s %s\n", strings.Repeat("-", max), strings.Repeat("-", maxc), strings.Repeat("-", maxs), strings.Repeat("-", maxk), strings.Repeat("-", maxm), strings.Repeat("-", maxg), strings.Repeat("-", maxa))
 
 		for _, k := range keys {
 			s := extensions[k]
-			fmt.Printf("%-*s %*d %*d %*d %*d %*d\n", max, k, maxc, s.files, maxs, s.size, maxk, s.size/1024, maxm, s.size/1024/1024, maxg, s.size/1024/1024/1024)
+			fmt.Printf("%-*s %*d %*d %*d %*d %*d %*d\n", max, k, maxc, s.files, maxs, s.size, maxk, s.size/1024, maxm, s.size/1024/1024, maxg, s.size/1024/1024/1024, maxa, s.size/s.files)
 		}
 	}
 }
