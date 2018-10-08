@@ -80,7 +80,7 @@ func main() {
 		maxk := 2
 		maxm := 2
 		maxg := 2
-		maxa := 6
+		maxa := 9
 		for k := range extensions {
 			keys = append(keys, k)
 			if len(k) > max {
@@ -112,7 +112,7 @@ func main() {
 			}
 		}
 		sort.Strings(keys)
-		fmt.Printf("%-*.*s %*s %*s %*s %*s %*s %*.*s\n", max, max, "Extension", maxc, "Files", maxs, "Bytes", maxk, "KB", maxm, "MB", maxg, "GB", maxa, maxa, "Avg KB")
+		fmt.Printf("%-*.*s %*s %*s %*s %*s %*s %*.*s\n", max, max, "Extension", maxc, "Files", maxs, "Bytes", maxk, "KB", maxm, "MB", maxg, "GB", maxa, maxa, "Avg Bytes")
 		fmt.Printf("%s %s %s %s %s %s %s\n", strings.Repeat("-", max), strings.Repeat("-", maxc), strings.Repeat("-", maxs), strings.Repeat("-", maxk), strings.Repeat("-", maxm), strings.Repeat("-", maxg), strings.Repeat("-", maxa))
 
 		for _, k := range keys {
