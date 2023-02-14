@@ -17,6 +17,7 @@ var (
 	startPath = flag.String("path", ".", "Set the path to check")
 	filePat   = flag.String("files", "*", "Sets a file pattern to use")
 	ext       = flag.Bool("ext", false, "Aggregate by extension")
+	exclude   = flag.String("exclude", "", "Comma-separated folders to exclude")
 )
 
 type stats struct {
@@ -26,6 +27,9 @@ type stats struct {
 
 func main() {
 	flag.Parse()
+
+	excludes := strings.Split(*exclude, ",")
+	sort.Strings(excludes)
 
 	var files, dirs int64
 	var size int64
@@ -58,6 +62,12 @@ func main() {
 					}
 				}
 			} else {
+				// check for skip dirs
+				if i := sort.SearchStrings(excludes, info.Name()); i < len(excludes) && excludes[i] == info.Name() {
+					if path != *startPath {
+						return filepath.SkipDir
+					}
+				}
 				dirs++
 			}
 		} else {
